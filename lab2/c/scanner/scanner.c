@@ -52,36 +52,93 @@ static void convert (int base)
 static int __yylex ()
 {
     int c, state;
+
+
+    for (state = 0; ; ) {
+        c = input();
+        switch(state) {
+            case 0:               /* skip whitespaces */
+                if (isspace(c)) {
+                    yyleng = 0;
+                    break;
+                }
+
+                if (isalpha(c)) {
+                    state = 1;      /* treat next chars as Identifier */
+                    break;
+                }
+                if (isdigit(c)) {
+                    state = 2;      /* treat next chars as Number */
+                    break;
+                }
+                if (c == '-') {         /* unary minus before num ? */
+                    c = input();
+                    if (isdigit(c)) {
+                        state = 2;      /* num! */
+                        break;
+                    } else {
+                        unput(c);
+                        return '-';
+                    }
+                }
+
+                return c;           /* return one-char Literal */
+
+            case 1:               /* build Identifier */
+                if (!isalnum(c)) {
+                    unput(c);
+                    return ID;
+                }
+                break;
+
+            case 2:               /* build Number */
+                if (!isdigit(c)) {
+                    convert(10);
+                    unput(c);
+                    return NUM;
+                }
+                break;
+
+            default:
+                fprintf(stderr, "\nFatal error: yylex is in unknown state\n");
+                exit(1);
+        }
+    }
+}
+
+/*static int __yylex ()
+{
+    int c, state;
  
 
     for (state = 0; ; ) {
         c = input();
         switch(state) {
-          case 0:               /* skip whitespaces */
+          case 0:               *//* skip whitespaces *//*
             if (isspace(c)) {   
                 yyleng = 0;
                 break;
             }               
 
             if (isalpha(c)) {
-                state = 1;      /* treat next chars as Identifier */
+                state = 1;      *//* treat next chars as Identifier *//*
                 break;
             }
             if (isdigit(c)) {   
-                state = 2;      /* treat next chars as Number */
+                state = 2;      *//* treat next chars as Number *//*
                 break;
             }
 
-            return c;           /* return one-char Literal */
+            return c;           *//* return one-char Literal *//*
 
-          case 1:               /* build Identifier */
+          case 1:               *//* build Identifier *//*
             if (!isalnum(c)) {
                 unput(c);
                 return ID;
             }               
             break;
 
-          case 2:               /* build Number */
+          case 2:               *//* build Number *//*
             if (!isdigit(c)) {
                 unput(c);
                 convert(10);
@@ -94,7 +151,7 @@ static int __yylex ()
             exit(1);        
         }
     }
-}
+}*/
 
 /* ------- Global functions ------- */
 
