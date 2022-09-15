@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define sz 8
+#define sz 32
 char buf[sz];
 
 main()
