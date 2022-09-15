@@ -37,12 +37,16 @@ static void convert (int base)
     long long int x;
 
     
-    x = strtoll (yytext, NULL, 10);
+    x = strtoll (yytext, NULL, base);
     yylval = x;
     if (errno == ERANGE || yylval != x) { 
         fprintf(stderr, "\nFatal error: number %s is too big\n", yytext);
 	    exit(1);
     }
+}
+
+static int isBinaryDigit(int c) {
+    return c == '0' || c == '1';
 }
 
 
@@ -67,10 +71,18 @@ static int __yylex ()
                     state = 1;      /* treat next chars as Identifier */
                     break;
                 }
+
                 if (isdigit(c)) {
+
+                    if (isBinaryDigit(c)) {
+                        state = 3; /*  detect next binary digits  */
+                        break;
+                    }
+
                     state = 2;      /* treat next chars as Number */
                     break;
                 }
+
                 if (c == '-') {         /* unary minus before num ? */
                     c = input();
                     if (isdigit(c)) {
@@ -98,6 +110,34 @@ static int __yylex ()
                     return NUM;
                 }
                 break;
+
+            case 3:             /* binary digits  */
+                if (!isBinaryDigit(c)) {
+                    if (c != 'x') {
+                        unput(c);
+                        state = 2;  /* !not binary num -> go to decimal num */
+                        break;
+                    }
+
+                    state = 4; /* confirm that number is binary */
+                }
+
+                break;
+
+            case 4:             /*  confirm base of number after "x" suffix  */
+
+                if (c == 'b') {
+                    /* bingo! binary number */
+                    convert(2);
+                    return NUM;
+                }
+
+                unput(c);
+                unput('x');
+                state = 2; /*  just decimal number */
+
+                break;
+
 
             default:
                 fprintf(stderr, "\nFatal error: yylex is in unknown state\n");

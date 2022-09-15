@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "scanner.h"
-
+/*
+* cc *.c
+ */
 int main (void)
 {
     int token;
