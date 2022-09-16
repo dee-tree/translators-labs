@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "scanner.h"
 /*
-* cc *.c
+* cc *.c to build a.out
  */
 int main (void)
 {

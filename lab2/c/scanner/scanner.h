@@ -7,9 +7,12 @@
 
 enum { NUM = UCHAR_MAX + 1, ID };   /* starts from 256 */
 
+enum { SHORT = 16, LONG = 32 };  /*  num size. short - 16, long - 32 */
+
+
 /* ------- Type of yylval -------- */
 
-typedef int YYSTYPE; 
+typedef int YYSTYPE;
 
 /* ------- Global data ------- */
 
