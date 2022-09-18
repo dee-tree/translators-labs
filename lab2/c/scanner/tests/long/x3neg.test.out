@@ -1,2 +1,2 @@
-token	\256 	yytext -12465656	yyleng 9	yylval -12465656
+token	\256 	yytext L#-12465656	yyleng 11	yylval -12465656
 token	\0 	yytext 	yyleng 1	yylval -12465656

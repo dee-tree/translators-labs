@@ -216,10 +216,12 @@ static int __yylex() {
 
             case 6:   /*  read digits of long num */
                 if (!isdigit(c)) {
-                    char *tmp = yytext + 2;
                     yyleng -= 2;
-                    memmove(yytext, tmp, strlen(tmp) + 2);
+                    memmove(yytext,  yytext + 2, yyleng);
                     convert(10, LONG);
+                    memmove(yytext + 2, yytext, yyleng + 2);
+                    yyleng += 2;
+                    yytext[0] = 'L'; yytext[1] = '#';
                     unput(c);
                     return NUM;
                 }
