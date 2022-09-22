@@ -1,0 +1,2 @@
+token	\256 	yytext 101xb	yyleng 5	yylval 5
+token	\0 	yytext 	yyleng 1	yylval 5

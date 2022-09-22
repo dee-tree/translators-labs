@@ -1,0 +1,2 @@
+token	\256 	yytext 11111111111111111111111111111111xb	yyleng 34	yylval -1
+token	\0 	yytext 	yyleng 1	yylval -1

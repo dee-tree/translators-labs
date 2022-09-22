@@ -1,0 +1,4 @@
+token	\256 	yytext 101	yyleng 3	yylval 101
+token	\257 	yytext x	yyleng 1	yylval 101
+token	'=' 	yytext =	yyleng 1	yylval 101
+token	\0 	yytext 	yyleng 1	yylval 101

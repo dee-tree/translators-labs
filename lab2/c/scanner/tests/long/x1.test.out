@@ -1,0 +1,2 @@
+token	\256 	yytext L#12345	yyleng 7	yylval 12345
+token	\0 	yytext 	yyleng 1	yylval 12345
