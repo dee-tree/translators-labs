@@ -70,19 +70,37 @@ static void convert(int base, int size) {
     long long mask = (power(2, size) - 1);
     int overflow = 0;
 
-    x = strtoll(yytext, NULL, base);
+    if (base == 2) {
+        unsigned long long xbin = strtoull(yytext, NULL, base);
 
-    if (errno == ERANGE || power(2, size - 1) <= x || x <= -power(2, size - 1)) {
-        overflow = 1;
+        if (errno == ERANGE) {
+            overflow = 1;
+        }
+
+        yylval = xbin;
+
+        if (overflow || xbin > 0xFFFFFFFF) {
+            fprintf(stderr, "\nFatal error: number %s is too big\n", yytext);
+            exit(1);
+        }
+
+    } else {
+        x = strtoll(yytext, NULL, base);
+
+        if (errno == ERANGE || power(2, size - 1) <= x || x <= -power(2, size - 1)) {
+            overflow = 1;
+        }
+
+        x = x & mask;
+        yylval = x;
+
+        if (overflow || yylval != (int) x) {
+            fprintf(stderr, "\nFatal error: number %s is too big\n", yytext);
+            exit(1);
+        }
     }
 
-    x = x & mask;
-    yylval = x;
 
-    if (overflow || yylval != (int) x) {
-        fprintf(stderr, "\nFatal error: number %s is too big\n", yytext);
-        exit(1);
-    }
 }
 
 static int isBinaryDigit(int c) {
