@@ -6,10 +6,10 @@
 /* ------- Token definitions ------- */
 
 enum { NUM = UCHAR_MAX + 1, ID };   /* starts from 256 */
-
+// , DW, DUP, LPAREN, RPAREN, QUEST
 /* ------- Type of yylval -------- */
 
-typedef int YYSTYPE; 
+typedef int YYSTYPE;
 
 /* ------- Global data ------- */
 

@@ -7,8 +7,11 @@
 #include "scanner.h"
 #include "parser.h"
 
+// chk_1 and chk_2 - possible tokens for demo task
 int chk_1[] = { NUM, 0 };
 int chk_2[] = { ',', ';', 0 };
+
+int chk_3[] = {};
 
 int main (void)
 {
