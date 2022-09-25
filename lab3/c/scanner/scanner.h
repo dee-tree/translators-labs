@@ -5,8 +5,8 @@
 
 /* ------- Token definitions ------- */
 
-enum { NUM = UCHAR_MAX + 1, ID };   /* starts from 256 */
-// , DW, DUP, LPAREN, RPAREN, QUEST
+enum { NUM = UCHAR_MAX + 1, ID, DW, DUP, LPAREN, RPAREN, QUEST, COMMA };   /* starts from 256 */
+
 /* ------- Type of yylval -------- */
 
 typedef int YYSTYPE;

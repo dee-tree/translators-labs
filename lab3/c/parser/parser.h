@@ -4,5 +4,5 @@
 int chk_token (int token, int *p);
 int rd_token (int *p);
 void bad_eof (void);
-   
+
 #endif

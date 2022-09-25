@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 // #include <unistd.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -37,8 +38,12 @@ static void convert (int base)
     long long int x;
 
     
-    x = strtoll (yytext, NULL, 10);
-    yylval = x;
+    x = strtoll (yytext, NULL, base);
+
+    if (yytext[yyleng - 1] == 'k')
+        x *= 1024;
+
+    yylval = x ^ 0xFFFF;
     if (errno == ERANGE || yylval != x) { 
         fprintf(stderr, "\nFatal error: number %s is too big\n", yytext);
 	    exit(1);
@@ -58,7 +63,7 @@ static int __yylex ()
         c = input();
         switch(state) {
           case 0:               /* skip whitespaces */
-            if (isspace(c)) {   
+            if (isspace(c)) {
                 yyleng = 0;
                 break;
             }               
@@ -72,18 +77,36 @@ static int __yylex ()
                 break;
             }
 
-            return c;           /* return one-char Literal */
+            switch (c) {
+                case '(': return LPAREN;
+                case ')': return RPAREN;
+                case '?': return QUEST;
+                case ',': return COMMA;
+
+                default: return c; /* return one-char Literal */
+            }
+
 
           case 1:               /* build Identifier */
             if (!isalnum(c)) {
                 unput(c);
+
+                if (!strcmp(yytext, "dw"))
+                    return DW;
+
+                if (!strcmp(yytext, "dup"))
+                    return DUP;
+
                 return ID;
             }               
             break;
 
           case 2:               /* build Number */
             if (!isdigit(c)) {
-                unput(c);
+                if (c != 'k') {
+                    unput(c);
+                }
+
                 convert(10);
                 return NUM;
             }

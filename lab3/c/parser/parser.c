@@ -50,4 +50,4 @@ void bad_eof (void)
 {
     fprintf(stderr, "Error: Unexpected EOF\n");
     exit(1);
-}   
+}
