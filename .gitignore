@@ -1,5 +1,7 @@
 /cmake-build-debug/
 /CMakeLists.txt
 
-*.out.result
 /lab2/c/scanner/a.out
+/lab3/c/parser/a.out
+
+*.test.out.result
