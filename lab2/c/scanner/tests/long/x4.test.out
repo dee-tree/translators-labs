@@ -1,0 +1,3 @@
+token	'#' 	yytext #	yyleng 1	yylval 0
+token	\257 	yytext Labcd	yyleng 5	yylval 0
+token	\0 	yytext 	yyleng 1	yylval 0
