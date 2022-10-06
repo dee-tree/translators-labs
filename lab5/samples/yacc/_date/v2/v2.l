@@ -16,7 +16,7 @@ sep         |
 oct         |
 nov         |
 dec         { return MONTH; }
-","         { return yytext[0]; }
+[","";"]    { return SEPARATOR; }
 [ \t\n]     ;
 .           { return 0; }
 %%

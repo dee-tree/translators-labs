@@ -1,6 +1,6 @@
-%token   NUMBER MONTH
+%token   NUMBER MONTH SEPARATOR
 %start   date
 
 %%
-date :   MONTH NUMBER ',' NUMBER
+date :   MONTH NUMBER SEPARATOR NUMBER
 %%
