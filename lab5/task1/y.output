@@ -1,0 +1,208 @@
+Grammar
+
+    0 $accept: dw_statement $end
+
+    1 dw_statement: DW dw_arglist
+    2             | %empty
+
+    3 dw_arglist: dw_arg
+    4           | dw_arg COMMA dw_arglist
+
+    5 dw_arg: NUM
+    6       | QUEST
+    7       | dup_expr
+
+    8 dup_expr: NUM DUP dup_arglist
+
+    9 dup_arglist: NUM
+   10            | QUEST
+   11            | LPAREN dw_arglist RPAREN
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    NUM <ival> (258) 5 8 9
+    DW <ival> (259) 1
+    DUP <ival> (260) 8
+    LPAREN <ival> (261) 11
+    RPAREN <ival> (262) 11
+    QUEST <ival> (263) 6 10
+    COMMA <ival> (264) 4
+
+
+Nonterminals, with rules where they appear
+
+    $accept (10)
+        on left: 0
+    dw_statement (11)
+        on left: 1 2
+        on right: 0
+    dw_arglist <mem> (12)
+        on left: 3 4
+        on right: 1 4 11
+    dw_arg <mem> (13)
+        on left: 5 6 7
+        on right: 3 4
+    dup_expr <mem> (14)
+        on left: 8
+        on right: 7
+    dup_arglist <mem> (15)
+        on left: 9 10 11
+        on right: 8
+
+
+State 0
+
+    0 $accept: . dw_statement $end
+
+    DW  shift, and go to state 1
+
+    $default  reduce using rule 2 (dw_statement)
+
+    dw_statement  go to state 2
+
+
+State 1
+
+    1 dw_statement: DW . dw_arglist
+
+    NUM    shift, and go to state 3
+    QUEST  shift, and go to state 4
+
+    dw_arglist  go to state 5
+    dw_arg      go to state 6
+    dup_expr    go to state 7
+
+
+State 2
+
+    0 $accept: dw_statement . $end
+
+    $end  shift, and go to state 8
+
+
+State 3
+
+    5 dw_arg: NUM .
+    8 dup_expr: NUM . DUP dup_arglist
+
+    DUP  shift, and go to state 9
+
+    $default  reduce using rule 5 (dw_arg)
+
+
+State 4
+
+    6 dw_arg: QUEST .
+
+    $default  reduce using rule 6 (dw_arg)
+
+
+State 5
+
+    1 dw_statement: DW dw_arglist .
+
+    $default  reduce using rule 1 (dw_statement)
+
+
+State 6
+
+    3 dw_arglist: dw_arg .
+    4           | dw_arg . COMMA dw_arglist
+
+    COMMA  shift, and go to state 10
+
+    $default  reduce using rule 3 (dw_arglist)
+
+
+State 7
+
+    7 dw_arg: dup_expr .
+
+    $default  reduce using rule 7 (dw_arg)
+
+
+State 8
+
+    0 $accept: dw_statement $end .
+
+    $default  accept
+
+
+State 9
+
+    8 dup_expr: NUM DUP . dup_arglist
+
+    NUM     shift, and go to state 11
+    LPAREN  shift, and go to state 12
+    QUEST   shift, and go to state 13
+
+    dup_arglist  go to state 14
+
+
+State 10
+
+    4 dw_arglist: dw_arg COMMA . dw_arglist
+
+    NUM    shift, and go to state 3
+    QUEST  shift, and go to state 4
+
+    dw_arglist  go to state 15
+    dw_arg      go to state 6
+    dup_expr    go to state 7
+
+
+State 11
+
+    9 dup_arglist: NUM .
+
+    $default  reduce using rule 9 (dup_arglist)
+
+
+State 12
+
+   11 dup_arglist: LPAREN . dw_arglist RPAREN
+
+    NUM    shift, and go to state 3
+    QUEST  shift, and go to state 4
+
+    dw_arglist  go to state 16
+    dw_arg      go to state 6
+    dup_expr    go to state 7
+
+
+State 13
+
+   10 dup_arglist: QUEST .
+
+    $default  reduce using rule 10 (dup_arglist)
+
+
+State 14
+
+    8 dup_expr: NUM DUP dup_arglist .
+
+    $default  reduce using rule 8 (dup_expr)
+
+
+State 15
+
+    4 dw_arglist: dw_arg COMMA dw_arglist .
+
+    $default  reduce using rule 4 (dw_arglist)
+
+
+State 16
+
+   11 dup_arglist: LPAREN dw_arglist . RPAREN
+
+    RPAREN  shift, and go to state 17
+
+
+State 17
+
+   11 dup_arglist: LPAREN dw_arglist RPAREN .
+
+    $default  reduce using rule 11 (dup_arglist)
