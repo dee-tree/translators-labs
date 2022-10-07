@@ -3,10 +3,11 @@
 enum { WORD = UCHAR_MAX + 1 };
 %}
 
-WORD [A-Za-z]+
 
 %%
-{WORD} {
+[A-Za-z]{1,3} ;
+
+[A-Za-z]+ {
     return WORD;
 }
 
@@ -23,7 +24,7 @@ int main () {
     int token;
     do {
         token = yylex();
-        if (token == WORD && yyleng > 3) {
+        if (token == WORD) {
             printf("%s\n", yytext);
         }
     } while (token);

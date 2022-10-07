@@ -9,7 +9,7 @@ enum { NUM = UCHAR_MAX + 1, ID };
 
 %}
 
-ID       [A-Za-z_][A-Za-z_\d]*
+ID       [A-Za-z_][A-Za-z_0-9]*
 NUM      [+-]?[0-9]+
 LONG_NUM L#{NUM}
 
